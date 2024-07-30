@@ -15,5 +15,5 @@ public class Params {
     @Id
     private String id;
     private String name;
-    private Clob sqlQuery;
+    private String sqlQuery;
 }

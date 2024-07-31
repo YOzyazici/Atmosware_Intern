@@ -1,8 +1,6 @@
 package com.example.intern.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Clob;
@@ -15,5 +13,7 @@ public class Params {
     @Id
     private String id;
     private String name;
-    private String sqlQuery;
+    @Lob
+    @Column(name = "sql_query")
+    private Clob sqlQuery;
 }

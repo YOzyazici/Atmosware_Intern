@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BatchmanService {
-    List<Batchman> getAllBatchmen();
-    Optional<Batchman> getBatchmanById(String batchId);
-    List<Batchman> searchByAllFields(String batchName);
+    List<BatchmanDto> getAllBatchmen();
+    Optional<BatchmanDto> getBatchmanById(String batchId);
+    List<BatchmanDto> searchByAllFields(String batchName);
     BatchmanDto createBatchman(BatchmanDto batchmanDto);
     void deleteBatchman(String batchId);
 }

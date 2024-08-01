@@ -1,8 +1,9 @@
 package com.example.intern.business.abstracts;
 
+import com.example.intern.business.dtos.ParamsDto;
 import com.example.intern.entities.Params;
 
 public interface ParamsService {
-    Params saveParams(Params params);
+    ParamsDto saveParams(ParamsDto paramsDto);
 
 }

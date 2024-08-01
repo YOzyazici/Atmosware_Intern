@@ -17,19 +17,19 @@ public class BatchmanController {
     private final BatchmanService batchmanService;
 
     @GetMapping
-    public List<Batchman> getAllBatchmen() {
+    public List<BatchmanDto> getAllBatchmen() {
         return batchmanService.getAllBatchmen();
     }
 
     @GetMapping("/{batchId}")
-    public ResponseEntity<Batchman> getBatchmanById(@PathVariable String batchId) {
+    public ResponseEntity<BatchmanDto> getBatchmanById(@PathVariable String batchId) {
         return batchmanService.getBatchmanById(batchId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/search")
-    public List<Batchman> searchByAllFields(@RequestParam String term) {
+    public List<BatchmanDto> searchByAllFields(@RequestParam String term) {
         return batchmanService.searchByAllFields(term);
     }
 

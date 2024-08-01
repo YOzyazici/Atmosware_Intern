@@ -3,6 +3,9 @@ package com.example.intern.business.concretes;
 import com.example.intern.business.abstracts.BatchmanService;
 import com.example.intern.business.abstracts.ExtractFeedService;
 import com.example.intern.business.abstracts.ParamsService;
+import com.example.intern.business.dtos.BatchmanDto;
+import com.example.intern.business.dtos.ExtractFeedDto;
+import com.example.intern.business.dtos.ParamsDto;
 import com.example.intern.business.queries.Queries;
 import com.example.intern.entities.Batchman;
 import com.example.intern.entities.ExtractFeed;
@@ -25,29 +28,20 @@ public class SearchManager {
 
     public SearchResult searchByAllFields(String searchTerm) {
 
-        List<Batchman> batchmanResults = batchmanService.searchByAllFields(searchTerm);
-        List<ExtractFeed> extractFeedResults = extractFeedService.searchByAllFields(searchTerm);
+        List<BatchmanDto> batchmanResults = batchmanService.searchByAllFields(searchTerm);
+        List<ExtractFeedDto> extractFeedResults = extractFeedService.searchByAllFields(searchTerm);
 
-        // Params objesi oluştur
-        Params batchmanParams = new Params();
-        batchmanParams.setId("batchman_" + System.currentTimeMillis());
-        batchmanParams.setName(searchTerm);
-        batchmanParams.setSqlQuery(createClob(Queries.Batchman.batchmanQuery));
+        ParamsDto batchmanParams = createParams("batchman", searchTerm, Queries.Batchman.batchmanQuery);
+        ParamsDto extractFeedParams = createParams("extractFeed", searchTerm, Queries.ExtractFeed.extractFeedQuery);
 
-        Params extractFeedParams = new Params();
-        extractFeedParams.setId("extractFeed_" + System.currentTimeMillis());
-        extractFeedParams.setName(searchTerm);
-        extractFeedParams.setSqlQuery(createClob(Queries.ExtractFeed.extractFeedQuery));
-
-        // Her sonuç için kullanılan sorguyu set et
-        List<SearchResult.ResultWithQuery<Batchman>> batchmanResultsWithQuery = batchmanResults.stream()
+        List<SearchResult.ResultWithQuery<BatchmanDto>> batchmanResultsWithQuery = batchmanResults.stream()
                 .map(result -> new SearchResult.ResultWithQuery<>(result, Queries.Batchman.batchmanQuery))
                 .toList();
         if (!batchmanResultsWithQuery.isEmpty()){
             paramsService.saveParams(batchmanParams);
         }
 
-        List<SearchResult.ResultWithQuery<ExtractFeed>> extractFeedResultsWithQuery = extractFeedResults.stream()
+        List<SearchResult.ResultWithQuery<ExtractFeedDto>> extractFeedResultsWithQuery = extractFeedResults.stream()
                 .map(result -> new SearchResult.ResultWithQuery<>(result, Queries.ExtractFeed.extractFeedQuery))
                 .toList();
         if (!extractFeedResultsWithQuery.isEmpty()){
@@ -57,21 +51,29 @@ public class SearchManager {
         return new SearchResult(searchTerm, batchmanResultsWithQuery, extractFeedResultsWithQuery);
     }
 
+    private ParamsDto createParams(String prefix, String searchTerm, String query) {
+        ParamsDto paramsDto = new ParamsDto();
+        paramsDto.setId(prefix + "_" + System.currentTimeMillis());
+        paramsDto.setName(searchTerm);
+        paramsDto.setSqlQuery(createClob(query));
+        return paramsDto;
+    }
+
     private Clob createClob(String data) {
         try {
             return new javax.sql.rowset.serial.SerialClob(data.toCharArray());
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating Clob object", e);
+            throw new RuntimeException("Clob nesnesi oluşturulurken bir hata oluştu", e);
         }
     }
 
     public static class SearchResult {
         private String searchTerm;
-        private List<ResultWithQuery<Batchman>> batchmanResultsWithQuery;
-        private List<ResultWithQuery<ExtractFeed>> extractFeedResultsWithQuery;
+        private List<ResultWithQuery<BatchmanDto>> batchmanResultsWithQuery;
+        private List<ResultWithQuery<ExtractFeedDto>> extractFeedResultsWithQuery;
 
-        public SearchResult(String searchTerm, List<ResultWithQuery<Batchman>> batchmanResultsWithQuery,
-                            List<ResultWithQuery<ExtractFeed>> extractFeedResultsWithQuery) {
+        public SearchResult(String searchTerm, List<ResultWithQuery<BatchmanDto>> batchmanResultsWithQuery,
+                            List<ResultWithQuery<ExtractFeedDto>> extractFeedResultsWithQuery) {
             this.searchTerm = searchTerm;
             this.batchmanResultsWithQuery = batchmanResultsWithQuery;
             this.extractFeedResultsWithQuery = extractFeedResultsWithQuery;
@@ -85,19 +87,19 @@ public class SearchManager {
             this.searchTerm = searchTerm;
         }
 
-        public List<ResultWithQuery<Batchman>> getBatchmanResultsWithQuery() {
+        public List<ResultWithQuery<BatchmanDto>> getBatchmanResultsWithQuery() {
             return batchmanResultsWithQuery;
         }
 
-        public void setBatchmanResultsWithQuery(List<ResultWithQuery<Batchman>> batchmanResultsWithQuery) {
+        public void setBatchmanResultsWithQuery(List<ResultWithQuery<BatchmanDto>> batchmanResultsWithQuery) {
             this.batchmanResultsWithQuery = batchmanResultsWithQuery;
         }
 
-        public List<ResultWithQuery<ExtractFeed>> getExtractFeedResultsWithQuery() {
+        public List<ResultWithQuery<ExtractFeedDto>> getExtractFeedResultsWithQuery() {
             return extractFeedResultsWithQuery;
         }
 
-        public void setExtractFeedResultsWithQuery(List<ResultWithQuery<ExtractFeed>> extractFeedResultsWithQuery) {
+        public void setExtractFeedResultsWithQuery(List<ResultWithQuery<ExtractFeedDto>> extractFeedResultsWithQuery) {
             this.extractFeedResultsWithQuery = extractFeedResultsWithQuery;
         }
 

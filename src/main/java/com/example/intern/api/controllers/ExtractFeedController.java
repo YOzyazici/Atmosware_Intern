@@ -1,6 +1,7 @@
 package com.example.intern.api.controllers;
 
 import com.example.intern.business.abstracts.ExtractFeedService;
+import com.example.intern.business.dtos.ExtractFeedDto;
 import com.example.intern.entities.ExtractFeed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,25 +17,25 @@ public class ExtractFeedController {
     private final ExtractFeedService extractFeedService;
 
     @GetMapping
-    public List<ExtractFeed> getAllExtractFeeds() {
+    public List<ExtractFeedDto> getAllExtractFeeds() {
         return extractFeedService.getAllExtractFeeds();
     }
 
     @GetMapping("/{feedId}")
-    public ResponseEntity<ExtractFeed> getExtractFeedById(@PathVariable String feedId) {
+    public ResponseEntity<ExtractFeedDto> getExtractFeedById(@PathVariable String feedId) {
         return extractFeedService.getExtractFeedById(feedId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/search")
-    public List<ExtractFeed> searchByAllFields(@RequestParam String term) {
+    public List<ExtractFeedDto> searchByAllFields(@RequestParam String term) {
         return extractFeedService.searchByAllFields(term);
     }
 
     @PostMapping
-    public ExtractFeed createExtractFeed(@RequestBody ExtractFeed extractFeed) {
-        return extractFeedService.createExtractFeed(extractFeed);
+    public ExtractFeedDto createExtractFeed(@RequestBody ExtractFeedDto extractFeedDto) {
+        return extractFeedService.createExtractFeed(extractFeedDto);
     }
 
     @DeleteMapping("/{feedId}")

@@ -6,8 +6,10 @@ import com.example.intern.dataAccess.abstracts.BatchmanRepository;
 import com.example.intern.entities.Batchman;
 import com.example.intern.mapper.BatchmanMapper;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,17 +19,29 @@ public class BatchmanManager implements BatchmanService {
 
     private final BatchmanRepository batchmanRepository;
 
-
-    public List<Batchman> getAllBatchmen() {
-        return batchmanRepository.findAll();
+    public List<BatchmanDto> getAllBatchmen() {
+        List<Batchman> batchmans = batchmanRepository.findAll();
+        List<BatchmanDto> batchmanDtos = new ArrayList<BatchmanDto>();
+        for (var batchman : batchmans) {
+            BatchmanDto batchmanDto = BatchmanMapper.INSTANCE.batchmanToDTO(batchman);
+            batchmanDtos.add(batchmanDto);
+        }
+        return batchmanDtos;
     }
 
-    public Optional<Batchman> getBatchmanById(String batchId) {
-        return batchmanRepository.findById(batchId);
+    public Optional<BatchmanDto> getBatchmanById(String batchId) {
+        Optional<Batchman> batchman = batchmanRepository.findById(batchId);
+        return batchman.map(BatchmanMapper.INSTANCE::batchmanToDTO);
     }
 
-    public List<Batchman> searchByAllFields(String batchName) {
-        return batchmanRepository.searchByAllFields(batchName);
+    public List<BatchmanDto> searchByAllFields(String batchName) {
+        List<Batchman> batchmans = batchmanRepository.searchByAllFields(batchName);
+        List<BatchmanDto> batchmanDtos = new ArrayList<>();
+        for (var batchman : batchmans){
+            BatchmanDto batchmanDto = BatchmanMapper.INSTANCE.batchmanToDTO(batchman);
+            batchmanDtos.add(batchmanDto);
+        }
+        return batchmanDtos;
     }
 
     public BatchmanDto createBatchman(BatchmanDto batchmanDto) {

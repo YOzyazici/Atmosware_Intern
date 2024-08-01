@@ -1,8 +1,8 @@
 package com.example.intern.business.messages;
 
 public class Messages {
-    public static class Batchman {
-        public static final String Batchman = "Batchman";
+    public static class Search {
+        public static final String CreateClob = "ErrorCreatingClobObject";
 
     }
 }

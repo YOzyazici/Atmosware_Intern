@@ -6,11 +6,11 @@ import com.example.intern.business.abstracts.ParamsService;
 import com.example.intern.business.dtos.BatchmanDto;
 import com.example.intern.business.dtos.ExtractFeedDto;
 import com.example.intern.business.dtos.ParamsDto;
+import com.example.intern.business.messages.Messages;
 import com.example.intern.business.queries.Queries;
-import com.example.intern.entities.Batchman;
-import com.example.intern.entities.ExtractFeed;
-import com.example.intern.entities.Params;
-import lombok.Data;
+import com.example.intern.core.business.abstracts.MessageService;
+import com.example.intern.core.utils.exceptions.types.BusinessException;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +25,7 @@ public class SearchManager {
     private final BatchmanService batchmanService;
     private final ExtractFeedService extractFeedService;
     private final ParamsService paramsService;
+    private final MessageService messageService;
 
     public SearchResult searchByAllFields(String searchTerm) {
 
@@ -63,7 +64,7 @@ public class SearchManager {
         try {
             return new javax.sql.rowset.serial.SerialClob(data.toCharArray());
         } catch (SQLException e) {
-            throw new RuntimeException("Clob nesnesi oluşturulurken bir hata oluştu", e);
+            throw new BusinessException(messageService.getMessage(Messages.Search.CreateClob));
         }
     }
 

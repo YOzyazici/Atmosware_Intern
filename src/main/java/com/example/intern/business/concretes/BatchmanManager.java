@@ -1,8 +1,10 @@
 package com.example.intern.business.concretes;
 
 import com.example.intern.business.abstracts.BatchmanService;
+import com.example.intern.business.dtos.BatchmanDto;
 import com.example.intern.dataAccess.abstracts.BatchmanRepository;
 import com.example.intern.entities.Batchman;
+import com.example.intern.mapper.BatchmanMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +30,10 @@ public class BatchmanManager implements BatchmanService {
         return batchmanRepository.searchByAllFields(batchName);
     }
 
-    public Batchman createBatchman(Batchman batchman) {
-        return batchmanRepository.save(batchman);
+    public BatchmanDto createBatchman(BatchmanDto batchmanDto) {
+        Batchman batchman = BatchmanMapper.INSTANCE.DtoToBatchman(batchmanDto);
+        batchmanRepository.save(batchman);
+        return BatchmanMapper.INSTANCE.batchmanToDTO(batchman);
     }
 
     public void deleteBatchman(String batchId) {

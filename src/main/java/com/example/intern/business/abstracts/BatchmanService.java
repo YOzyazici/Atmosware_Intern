@@ -1,5 +1,6 @@
 package com.example.intern.business.abstracts;
 
+import com.example.intern.business.dtos.BatchmanDto;
 import com.example.intern.entities.Batchman;
 
 import java.util.List;
@@ -9,6 +10,6 @@ public interface BatchmanService {
     List<Batchman> getAllBatchmen();
     Optional<Batchman> getBatchmanById(String batchId);
     List<Batchman> searchByAllFields(String batchName);
-    Batchman createBatchman(Batchman batchman);
+    BatchmanDto createBatchman(BatchmanDto batchmanDto);
     void deleteBatchman(String batchId);
 }

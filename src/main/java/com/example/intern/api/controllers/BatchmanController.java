@@ -1,6 +1,7 @@
 package com.example.intern.api.controllers;
 
 import com.example.intern.business.abstracts.BatchmanService;
+import com.example.intern.business.dtos.BatchmanDto;
 import com.example.intern.entities.Batchman;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,8 @@ public class BatchmanController {
     }
 
     @PostMapping
-    public Batchman createBatchman(@RequestBody Batchman batchman) {
-        return batchmanService.createBatchman(batchman);
+    public BatchmanDto createBatchman(@RequestBody BatchmanDto batchmanDto) {
+        return batchmanService.createBatchman(batchmanDto);
     }
 
     @DeleteMapping("/{batchId}")

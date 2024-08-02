@@ -16,8 +16,8 @@ public class SearchController {
     private final SearchManager searchManager;
 
     @GetMapping
-    public ResponseEntity<SearchManager.SearchResult> searchByAllFields(@RequestParam String term) {
-        SearchManager.SearchResult searchResult = searchManager.searchByAllFields(term);
+    public ResponseEntity<SearchManager.SearchResult> searchByAllFields(@RequestParam String word) {
+        SearchManager.SearchResult searchResult = searchManager.searchByAllFields(word);
         return ResponseEntity.ok(searchResult);
     }
 

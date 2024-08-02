@@ -1,15 +1,15 @@
 package com.example.intern.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.sql.Clob;
 
 @Entity
 @Data
 @Table(name = "EXTRACT_FEED", schema = "yasin")
 public class ExtractFeed {
+
     @Id
     @Column(name = "FEED_ID")
     private String feedId;
@@ -20,6 +20,13 @@ public class ExtractFeed {
     @Column(name = "FEED_FILE_NAME")
     private String feedFileName;
 
-    @Column(name = "FEED_FILE_EXT")
-    private String feedFileExt;
+    @Column(name = "EX_SQL")
+    private String exSql;
+
+    @Column(name = "POST_SCRIPT")
+    private String postScript;
+
+    @Lob
+    @Column(name = "PREV_SCRIPT")
+    private Clob prevScript;
 }

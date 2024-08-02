@@ -34,8 +34,8 @@ public class BatchmanManager implements BatchmanService {
         return batchman.map(BatchmanMapper.INSTANCE::batchmanToDTO);
     }
 
-    public List<BatchmanDto> searchByAllFields(String batchName) {
-        List<Batchman> batchmans = batchmanRepository.searchByAllFields(batchName);
+    public List<BatchmanDto> searchByAllFields(String word) {
+        List<Batchman> batchmans = batchmanRepository.searchByAllFields(word);
         List<BatchmanDto> batchmanDtos = new ArrayList<>();
         for (var batchman : batchmans){
             BatchmanDto batchmanDto = BatchmanMapper.INSTANCE.batchmanToDTO(batchman);

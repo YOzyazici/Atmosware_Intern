@@ -32,8 +32,8 @@ public class ExtractFeedManager implements ExtractFeedService {
         return extractFeed.map(ExtractFeedMapper.INSTANCE::extractFeedToDTO);
     }
 
-    public List<ExtractFeedDto> searchByAllFields(String searchTerm) {
-        List<ExtractFeed> extractFeeds = extractFeedRepository.searchByAllFields(searchTerm);
+    public List<ExtractFeedDto> searchByAllFields(String word) {
+        List<ExtractFeed> extractFeeds = extractFeedRepository.searchByAllFields(word);
         List<ExtractFeedDto> extractFeedDtos = new ArrayList<>();
         for (var extractFeed : extractFeeds){
             ExtractFeedDto extractFeedDto = ExtractFeedMapper.INSTANCE.extractFeedToDTO(extractFeed);

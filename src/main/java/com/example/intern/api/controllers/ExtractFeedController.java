@@ -29,8 +29,8 @@ public class ExtractFeedController {
     }
 
     @GetMapping("/search")
-    public List<ExtractFeedDto> searchByAllFields(@RequestParam String term) {
-        return extractFeedService.searchByAllFields(term);
+    public List<ExtractFeedDto> searchByAllFields(@RequestParam String word) {
+        return extractFeedService.searchByAllFields(word);
     }
 
     @PostMapping

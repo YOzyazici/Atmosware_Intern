@@ -11,6 +11,6 @@ import java.sql.Clob;
 @Data
 public class ParamsDto {
     private String id;
-    private String name;
+    private String word;
     private Clob sqlQuery;
 }

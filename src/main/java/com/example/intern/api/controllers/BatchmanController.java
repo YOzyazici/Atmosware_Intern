@@ -29,8 +29,8 @@ public class BatchmanController {
     }
 
     @GetMapping("/search")
-    public List<BatchmanDto> searchByAllFields(@RequestParam String term) {
-        return batchmanService.searchByAllFields(term);
+    public List<BatchmanDto> searchByAllFields(@RequestParam String word) {
+        return batchmanService.searchByAllFields(word);
     }
 
     @PostMapping

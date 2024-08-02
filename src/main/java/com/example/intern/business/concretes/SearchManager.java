@@ -27,13 +27,13 @@ public class SearchManager {
     private final ParamsService paramsService;
     private final MessageService messageService;
 
-    public SearchResult searchByAllFields(String searchTerm) {
+    public SearchResult searchByAllFields(String word) {
 
-        List<BatchmanDto> batchmanResults = batchmanService.searchByAllFields(searchTerm);
-        List<ExtractFeedDto> extractFeedResults = extractFeedService.searchByAllFields(searchTerm);
+        List<BatchmanDto> batchmanResults = batchmanService.searchByAllFields(word);
+        List<ExtractFeedDto> extractFeedResults = extractFeedService.searchByAllFields(word);
 
-        ParamsDto batchmanParams = createParams("batchman", searchTerm, Queries.Batchman.batchmanQuery);
-        ParamsDto extractFeedParams = createParams("extractFeed", searchTerm, Queries.ExtractFeed.extractFeedQuery);
+        ParamsDto batchmanParams = createParams("batchman", word, Queries.Batchman.batchmanQuery);
+        ParamsDto extractFeedParams = createParams("extractFeed", word, Queries.ExtractFeed.extractFeedQuery);
 
         List<SearchResult.ResultWithQuery<BatchmanDto>> batchmanResultsWithQuery = batchmanResults.stream()
                 .map(result -> new SearchResult.ResultWithQuery<>(result, Queries.Batchman.batchmanQuery))
@@ -49,13 +49,13 @@ public class SearchManager {
             paramsService.saveParams(extractFeedParams);
         }
 
-        return new SearchResult(searchTerm, batchmanResultsWithQuery, extractFeedResultsWithQuery);
+        return new SearchResult(word, batchmanResultsWithQuery, extractFeedResultsWithQuery);
     }
 
     private ParamsDto createParams(String prefix, String searchTerm, String query) {
         ParamsDto paramsDto = new ParamsDto();
         paramsDto.setId(prefix + "_" + System.currentTimeMillis());
-        paramsDto.setName(searchTerm);
+        paramsDto.setWord(searchTerm);
         paramsDto.setSqlQuery(createClob(query));
         return paramsDto;
     }

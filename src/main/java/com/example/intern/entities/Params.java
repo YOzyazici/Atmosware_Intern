@@ -8,11 +8,16 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "PARAMS", schema = "burak")
+@Table(name = "Params", schema = "burak")
 public class Params {
+
     @Id
+    @Column(name = "ID")
     private String id;
-    private String name;
+
+    @Column(name = "WORD")
+    private String word;
+
     @Lob
     @Column(name = "sql_query")
     private Clob sqlQuery;

@@ -1,5 +1,6 @@
 package com.example.intern.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -26,7 +27,7 @@ public class ExtractFeed {
     @Column(name = "POST_SCRIPT")
     private String postScript;
 
-    @Lob
-    @Column(name = "PREV_SCRIPT")
-    private Clob prevScript;
+//    @Lob
+//    @Column(name = "PREV_SCRIPT")
+//    private Clob prevScript;
 }

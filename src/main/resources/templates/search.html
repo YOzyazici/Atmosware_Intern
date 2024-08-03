@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Page</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="/js/scripts.js" defer></script>
+</head>
+<body>
+<div class="form-container">
+    <h1>Search</h1>
+    <form th:action="@{/search}" method="get">
+        <input type="text" name="word" placeholder="Enter search keyword" />
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<div th:if="${searchResult}" class="results-container">
+    <h2>Results:</h2>
+
+    <!-- Batchman Results -->
+    <div>
+        <h3>Batchman Results</h3>
+        <ul>
+            <li th:each="item : ${searchResult.batchmanResultsWithQuery}">
+                <div>
+                    <strong>Batchman Result:</strong><br/>
+                    <span th:text="${item.result.batchId}">Batch ID</span> -
+                    <span th:text="${item.result.batchDesc}">Batch Description</span> -
+                    <span th:text="${item.result.script}">Script</span><br/>
+                    <strong>Query:</strong><br/>
+                    <pre th:text="${item.query}">Query</pre>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ExtractFeed Results -->
+    <div>
+        <h3>ExtractFeed Results</h3>
+        <ul>
+            <li th:each="item : ${searchResult.extractFeedResultsWithQuery}">
+                <div>
+                    <strong>ExtractFeed Result:</strong><br/>
+                    <span th:text="${item.result.feedId}">Feed ID</span> -
+                    <span th:text="${item.result.feedDesc}">Feed Description</span> -
+                    <span th:text="${item.result.feedFileName}">Feed File Name</span> -
+                    <span th:text="${item.result.exSql}">Extract SQL</span> -
+                    <span th:text="${item.result.postScript}">Post Script</span><br/>
+                    <strong>Query:</strong><br/>
+                    <pre th:text="${item.query}">Query</pre>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

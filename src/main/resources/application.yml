@@ -13,3 +13,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.OracleDialect
+  thymeleaf:
+    prefix: classpath:/templates/
+  web:
+    resources:
+      static-locations: classpath:/static/

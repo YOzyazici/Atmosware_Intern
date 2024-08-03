@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,15 +38,15 @@ public class SearchManager {
 
         List<SearchResult.ResultWithQuery<BatchmanDto>> batchmanResultsWithQuery = batchmanResults.stream()
                 .map(result -> new SearchResult.ResultWithQuery<>(result, Queries.Batchman.batchmanQuery))
-                .toList();
-        if (!batchmanResultsWithQuery.isEmpty()){
+                .collect(Collectors.toList());
+        if (!batchmanResultsWithQuery.isEmpty()) {
             paramsService.saveParams(batchmanParams);
         }
 
         List<SearchResult.ResultWithQuery<ExtractFeedDto>> extractFeedResultsWithQuery = extractFeedResults.stream()
                 .map(result -> new SearchResult.ResultWithQuery<>(result, Queries.ExtractFeed.extractFeedQuery))
-                .toList();
-        if (!extractFeedResultsWithQuery.isEmpty()){
+                .collect(Collectors.toList());
+        if (!extractFeedResultsWithQuery.isEmpty()) {
             paramsService.saveParams(extractFeedParams);
         }
 

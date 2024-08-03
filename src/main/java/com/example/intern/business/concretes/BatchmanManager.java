@@ -45,7 +45,7 @@ public class BatchmanManager implements BatchmanService {
     }
 
     public BatchmanDto createBatchman(BatchmanDto batchmanDto) {
-        Batchman batchman = BatchmanMapper.INSTANCE.DtoToBatchman(batchmanDto);
+        Batchman batchman = BatchmanMapper.INSTANCE.dtoToBatchman(batchmanDto);
         batchmanRepository.save(batchman);
         return BatchmanMapper.INSTANCE.batchmanToDTO(batchman);
     }

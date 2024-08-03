@@ -13,5 +13,5 @@ public class BatchmanDto {
     private String batchId;
     private String batchDesc;
     private String script;
-//    private Clob scriptClob;
+    private String scriptClob;
 }

@@ -23,7 +23,7 @@ public class Batchman {
     @Column(name = "SCRIPT")
     private String script;
 
-//    @Lob
-//    @Column(name = "SCRIPT_CLOB")
-//    private Clob scriptClob;
+    @Lob
+    @Column(name = "SCRIPT_CLOB")
+    private Clob scriptClob;
 }

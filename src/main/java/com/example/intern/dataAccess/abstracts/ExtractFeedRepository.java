@@ -9,12 +9,14 @@ import java.util.List;
 
 public interface ExtractFeedRepository extends JpaRepository<ExtractFeed, String> {
 
-    @Query("SELECT e FROM ExtractFeed e WHERE " +
-            "LOWER(e.feedId) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(e.feedDesc) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(e.feedFileName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(e.exSql) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(e.postScript) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    @Query(value = "SELECT * FROM yasin.EXTRACT_FEED e WHERE " +
+            "LOWER(e.feed_id) LIKE LOWER('%' || :searchTerm || '%') OR " +
+            "LOWER(e.feed_desc) LIKE LOWER('%' || :searchTerm || '%') OR " +
+            "LOWER(e.feed_file_name) LIKE LOWER('%' || :searchTerm || '%') OR " +
+            "LOWER(e.ex_sql) LIKE LOWER('%' || :searchTerm || '%') OR " +
+            "LOWER(e.post_script) LIKE LOWER('%' || :searchTerm || '%') OR " +
+            "LOWER(DBMS_LOB.SUBSTR(e.prev_script, 4000, 1)) LIKE LOWER('%' || :searchTerm || '%')",
+            nativeQuery = true)
     List<ExtractFeed> searchByAllFields(@Param("searchTerm") String searchTerm);
 
 }

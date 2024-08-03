@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/search")
+@RequestMapping("/api/searchRest")
 public class SearchController {
 
     private final SearchManager searchManager;
 
     @GetMapping
-    public ResponseEntity<SearchManager.SearchResult> searchByAllFields(@RequestParam String word) {
+    public SearchManager.SearchResult searchByAllFields(@RequestParam String word) {
         SearchManager.SearchResult searchResult = searchManager.searchByAllFields(word);
-        return ResponseEntity.ok(searchResult);
+        return searchResult;
     }
 
 }

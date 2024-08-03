@@ -27,7 +27,7 @@ public class ExtractFeed {
     @Column(name = "POST_SCRIPT")
     private String postScript;
 
-//    @Lob
-//    @Column(name = "PREV_SCRIPT")
-//    private Clob prevScript;
+    @Lob
+    @Column(name = "PREV_SCRIPT")
+    private Clob prevScript;
 }

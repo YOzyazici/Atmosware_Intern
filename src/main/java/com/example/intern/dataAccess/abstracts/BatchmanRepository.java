@@ -8,9 +8,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface BatchmanRepository extends JpaRepository<Batchman, String> {
-    @Query("SELECT b FROM Batchman b WHERE " +
-            "LOWER(b.batchId) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(b.batchDesc) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(b.script) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    @Query(value = "SELECT * FROM aziz.BATCHMAN b WHERE " +
+            "LOWER(b.batch_id) LIKE LOWER('%' || :searchTerm || '%') OR " +
+            "LOWER(b.batch_desc) LIKE LOWER('%' || :searchTerm || '%') OR " +
+            "LOWER(b.script) LIKE LOWER('%' || :searchTerm || '%') OR " +
+            "LOWER(DBMS_LOB.SUBSTR(b.script_clob, 4000, 1)) LIKE LOWER('%' || :searchTerm || '%')",
+            nativeQuery = true)
     List<Batchman> searchByAllFields(@Param("searchTerm") String searchTerm);
 }

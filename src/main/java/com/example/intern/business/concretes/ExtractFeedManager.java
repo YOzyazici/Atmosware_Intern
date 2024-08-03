@@ -43,7 +43,7 @@ public class ExtractFeedManager implements ExtractFeedService {
     }
 
     public ExtractFeedDto createExtractFeed(ExtractFeedDto extractFeedDto) {
-        ExtractFeed extractFeed = ExtractFeedMapper.INSTANCE.DtoToExtractFeed(extractFeedDto);
+        ExtractFeed extractFeed = ExtractFeedMapper.INSTANCE.dtoToExtractFeed(extractFeedDto);
         extractFeedRepository.save(extractFeed);
         return ExtractFeedMapper.INSTANCE.extractFeedToDTO(extractFeed);
     }

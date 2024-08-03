@@ -15,5 +15,5 @@ public class ExtractFeedDto {
     private String feedFileName;
     private String exSql;
     private String postScript;
-//    private Clob prevScript;
+    private String prevScript;
 }

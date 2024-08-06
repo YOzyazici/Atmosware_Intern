@@ -1,72 +1,116 @@
-/* General styles */
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f4f4f9;
+    color: #333;
 }
 
-/* Container for the search form */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .form-container {
     background: #fff;
     padding: 20px;
-    margin: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Search form styles */
+h1, h2, h3 {
+    font-weight: 300;
+    color: #333;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+h3 {
+    font-size: 1.3em;
+    margin-bottom: 0.5em;
+}
+
 form {
     display: flex;
     flex-direction: column;
 }
 
 input[type="text"] {
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 1em;
 }
 
 button {
-    padding: 10px;
+    padding: 12px;
     background-color: #007BFF;
     border: none;
     color: #fff;
     border-radius: 4px;
+    font-size: 1em;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 button:hover {
     background-color: #0056b3;
 }
 
-/* Results section styles */
 .results-container {
-    margin: 20px;
+    margin: 20px 0;
 }
 
-.results-container h3 {
-    margin-top: 0;
-}
-
-ul {
+.results-list {
     list-style-type: none;
     padding: 0;
 }
 
-li {
+.result-item {
     background: #fff;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
 }
 
-pre {
+.result-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.result-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.result-detail {
+    margin-bottom: 10px;
+}
+
+.label {
+    font-weight: bold;
+    color: #555;
+}
+
+.result-query pre {
     background: #f8f9fa;
     padding: 10px;
     border-radius: 4px;
     overflow-x: auto;
-    white-space: pre-wrap; /* Allows wrapping */
+    white-space: pre-wrap;
 }

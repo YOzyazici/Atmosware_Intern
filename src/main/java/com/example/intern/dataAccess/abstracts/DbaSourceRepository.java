@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface DbaSourceRepository extends JpaRepository<DbaSource, Long> {
 
-    @Query("SELECT ds FROM DbaSource ds WHERE UPPER(ds.text) LIKE UPPER(:keyword) AND ds.owner <> 'SYS' ORDER BY ds.owner, ds.name DESC")
+    @Query("SELECT ds FROM DbaSource ds WHERE ds.owner <> 'SYS' " +
+            "AND (UPPER(ds.text) LIKE UPPER(CONCAT('%', :keyword, '%'))) " +
+            "ORDER BY ds.owner, ds.name DESC")
     List<DbaSource> findByKeyword(@Param("keyword") String keyword);
 }

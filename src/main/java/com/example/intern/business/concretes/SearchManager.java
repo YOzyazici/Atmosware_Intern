@@ -1,9 +1,11 @@
 package com.example.intern.business.concretes;
 
 import com.example.intern.business.abstracts.BatchmanService;
+import com.example.intern.business.abstracts.DbaSourceService;
 import com.example.intern.business.abstracts.ExtractFeedService;
 import com.example.intern.business.abstracts.ParamsService;
 import com.example.intern.business.dtos.BatchmanDto;
+import com.example.intern.business.dtos.DbaSourceDto;
 import com.example.intern.business.dtos.ExtractFeedDto;
 import com.example.intern.business.dtos.ParamsDto;
 import com.example.intern.business.messages.Messages;
@@ -26,15 +28,18 @@ public class SearchManager {
     private final BatchmanService batchmanService;
     private final ExtractFeedService extractFeedService;
     private final ParamsService paramsService;
+    private final DbaSourceService dbaSourceService;
     private final MessageService messageService;
 
     public SearchResult searchByAllFields(String word) {
 
         List<BatchmanDto> batchmanResults = batchmanService.searchByAllFields(word);
         List<ExtractFeedDto> extractFeedResults = extractFeedService.searchByAllFields(word);
+        List<DbaSourceDto> dbaSourceResults = dbaSourceService.searchByAllDb(word);
 
         ParamsDto batchmanParams = createParams("batchman", word, Queries.Batchman.batchmanQuery);
         ParamsDto extractFeedParams = createParams("extractFeed", word, Queries.ExtractFeed.extractFeedQuery);
+        ParamsDto dbaSourceParams = createParams("dbaSource", word, Queries.DbaSource.dbaSourceQuery);
 
         List<SearchResult.ResultWithQuery<BatchmanDto>> batchmanResultsWithQuery = batchmanResults.stream()
                 .map(result -> new SearchResult.ResultWithQuery<>(result, Queries.Batchman.batchmanQuery))
@@ -50,7 +55,14 @@ public class SearchManager {
             paramsService.saveParams(extractFeedParams);
         }
 
-        return new SearchResult(word, batchmanResultsWithQuery, extractFeedResultsWithQuery);
+        List<SearchResult.ResultWithQuery<DbaSourceDto>> dbaSourceResultsWithQuery = dbaSourceResults.stream()
+                .map(result -> new SearchResult.ResultWithQuery<>(result, Queries.DbaSource.dbaSourceQuery))
+                .collect(Collectors.toList());
+        if (!dbaSourceResultsWithQuery.isEmpty()) {
+            paramsService.saveParams(dbaSourceParams);
+        }
+
+        return new SearchResult(word, batchmanResultsWithQuery, extractFeedResultsWithQuery, dbaSourceResultsWithQuery);
     }
 
     private ParamsDto createParams(String prefix, String searchTerm, String query) {
@@ -73,12 +85,15 @@ public class SearchManager {
         private String searchTerm;
         private List<ResultWithQuery<BatchmanDto>> batchmanResultsWithQuery;
         private List<ResultWithQuery<ExtractFeedDto>> extractFeedResultsWithQuery;
+        private List<ResultWithQuery<DbaSourceDto>> dbaSourceResultsWithQuery;
 
         public SearchResult(String searchTerm, List<ResultWithQuery<BatchmanDto>> batchmanResultsWithQuery,
-                            List<ResultWithQuery<ExtractFeedDto>> extractFeedResultsWithQuery) {
+                            List<ResultWithQuery<ExtractFeedDto>> extractFeedResultsWithQuery,
+                            List<ResultWithQuery<DbaSourceDto>> dbaSourceResultsWithQuery) {
             this.searchTerm = searchTerm;
             this.batchmanResultsWithQuery = batchmanResultsWithQuery;
             this.extractFeedResultsWithQuery = extractFeedResultsWithQuery;
+            this.dbaSourceResultsWithQuery = dbaSourceResultsWithQuery;
         }
 
         public String getSearchTerm() {
@@ -103,6 +118,14 @@ public class SearchManager {
 
         public void setExtractFeedResultsWithQuery(List<ResultWithQuery<ExtractFeedDto>> extractFeedResultsWithQuery) {
             this.extractFeedResultsWithQuery = extractFeedResultsWithQuery;
+        }
+
+        public List<ResultWithQuery<DbaSourceDto>> getDbaSourceResultsWithQuery() {
+            return dbaSourceResultsWithQuery;
+        }
+
+        public void setDbaSourceResultsWithQuery(List<ResultWithQuery<DbaSourceDto>> dbaSourceResultsWithQuery) {
+            this.dbaSourceResultsWithQuery = dbaSourceResultsWithQuery;
         }
 
         public static class ResultWithQuery<T> {

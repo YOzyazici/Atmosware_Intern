@@ -16,76 +16,78 @@
     </div>
 
     <div th:if="${searchResult}" class="results-container">
-        <h2>Results:</h2>
-
         <!-- Batchman Results -->
         <div class="results-section">
-            <h3>Batchman Results</h3>
-            <ul class="results-list">
-                <li th:each="item : ${searchResult.batchmanResultsWithQuery}" class="result-item">
-                    <div class="result-content">
-                        <div class="result-detail">
-                            <span class="label">Batch ID:</span>
-                            <span th:text="${item.result.batchId}">Batch ID</span>
+            <h3 class="toggle-header">Batchman Results ▼</h3>
+            <div class="results-content">
+                <ul class="results-list">
+                    <li th:each="item : ${searchResult.batchmanResultsWithQuery}" class="result-item">
+                        <div class="result-content">
+                            <div class="result-detail">
+                                <span class="label">Batch ID:</span>
+                                <span th:text="${item.result.batchId}">Batch ID</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Description:</span>
+                                <span th:text="${item.result.batchDesc}">Batch Description</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Script:</span>
+                                <span th:text="${item.result.script}">Script</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Script Clob:</span>
+                                <span th:text="${item.result.scriptClob}">Script Clob</span>
+                            </div>
+                            <div class="result-query">
+                                <strong>Query:</strong>
+                                <pre th:text="${item.query}">Query</pre>
+                            </div>
                         </div>
-                        <div class="result-detail">
-                            <span class="label">Description:</span>
-                            <span th:text="${item.result.batchDesc}">Batch Description</span>
-                        </div>
-                        <div class="result-detail">
-                            <span class="label">Script:</span>
-                            <span th:text="${item.result.script}">Script</span>
-                        </div>
-                        <div class="result-detail">
-                            <span class="label">Script Clob:</span>
-                            <span th:text="${item.result.scriptClob}">Script Clob</span>
-                        </div>
-                        <div class="result-query">
-                            <strong>Query:</strong>
-                            <pre th:text="${item.query}">Query</pre>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <!-- ExtractFeed Results -->
         <div class="results-section">
-            <h3>ExtractFeed Results</h3>
-            <ul class="results-list">
-                <li th:each="item : ${searchResult.extractFeedResultsWithQuery}" class="result-item">
-                    <div class="result-content">
-                        <div class="result-detail">
-                            <span class="label">Feed ID:</span>
-                            <span th:text="${item.result.feedId}">Feed ID</span>
+            <h3 class="toggle-header">ExtractFeed Results ▼</h3>
+            <div class="results-content">
+                <ul class="results-list">
+                    <li th:each="item : ${searchResult.extractFeedResultsWithQuery}" class="result-item">
+                        <div class="result-content">
+                            <div class="result-detail">
+                                <span class="label">Feed ID:</span>
+                                <span th:text="${item.result.feedId}">Feed ID</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Description:</span>
+                                <span th:text="${item.result.feedDesc}">Feed Description</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">File Name:</span>
+                                <span th:text="${item.result.feedFileName}">Feed File Name</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Extract SQL:</span>
+                                <span th:text="${item.result.exSql}">Extract SQL</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Post Script:</span>
+                                <span th:text="${item.result.postScript}">Post Script</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Previous Script:</span>
+                                <span th:text="${item.result.prevScript}">Previous Script</span>
+                            </div>
+                            <div class="result-query">
+                                <strong>Query:</strong>
+                                <pre th:text="${item.query}">Query</pre>
+                            </div>
                         </div>
-                        <div class="result-detail">
-                            <span class="label">Description:</span>
-                            <span th:text="${item.result.feedDesc}">Feed Description</span>
-                        </div>
-                        <div class="result-detail">
-                            <span class="label">File Name:</span>
-                            <span th:text="${item.result.feedFileName}">Feed File Name</span>
-                        </div>
-                        <div class="result-detail">
-                            <span class="label">Extract SQL:</span>
-                            <span th:text="${item.result.exSql}">Extract SQL</span>
-                        </div>
-                        <div class="result-detail">
-                            <span class="label">Post Script:</span>
-                            <span th:text="${item.result.postScript}">Post Script</span>
-                        </div>
-                        <div class="result-detail">
-                            <span class="label">Previous Script:</span>
-                            <span th:text="${item.result.prevScript}">Previous Script</span>
-                        </div>
-                        <div class="result-query">
-                            <strong>Query:</strong>
-                            <pre th:text="${item.query}">Query</pre>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

@@ -17,4 +17,18 @@ document.addEventListener('DOMContentLoaded', function() {
             item.style.backgroundColor = '#fff';
         });
     });
+
+    const toggleHeaders = document.querySelectorAll('.toggle-header');
+    toggleHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const content = header.nextElementSibling;
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                header.textContent = header.textContent.replace('▼', '▲');
+            } else {
+                content.style.display = 'none';
+                header.textContent = header.textContent.replace('▲', '▼');
+            }
+        });
+    });
 });

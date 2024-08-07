@@ -9,8 +9,20 @@ import java.util.List;
 
 public interface DbaSourceRepository extends JpaRepository<DbaSource, Long> {
 
-    @Query("SELECT ds FROM DbaSource ds WHERE ds.owner <> 'SYS' " +
-            "AND (UPPER(ds.text) LIKE UPPER(CONCAT('%', :keyword, '%'))) " +
-            "ORDER BY ds.owner, ds.name DESC")
-    List<DbaSource> findByKeyword(@Param("keyword") String keyword);
+    @Query(value = "SELECT * FROM dba_source " +
+            "WHERE owner <> 'SYS' " +
+            "AND ( " +
+            "    EXISTS ( " +
+            "        SELECT 1 " +
+            "        FROM ( " +
+            "            SELECT REGEXP_SUBSTR(:searchTerms, '[^ ]+', 1, LEVEL) AS keyword " +
+            "            FROM dual " +
+            "            CONNECT BY REGEXP_SUBSTR(:searchTerms, '[^ ]+', 1, LEVEL) IS NOT NULL " +
+            "        ) t " +
+            "        WHERE UPPER(dba_source.text) LIKE UPPER('%' || t.keyword || '%') " +
+            "    ) " +
+            ") " +
+            "ORDER BY owner, name DESC",
+            nativeQuery = true)
+    List<DbaSource> findByKeyword(@Param("searchTerms") String searchTerms);
 }

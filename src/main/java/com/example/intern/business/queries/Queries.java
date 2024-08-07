@@ -23,4 +23,9 @@ public class Queries {
                 "LOWER(DBMS_LOB.SUBSTR(e.prev_script, 4000, 1)) LIKE LOWER('%' || keyword || '%'))";
 
     }
+
+    public static class DbaSource{
+
+        public static final String dbaSourceQuery = "";
+    }
 }

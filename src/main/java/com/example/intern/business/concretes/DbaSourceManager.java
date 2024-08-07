@@ -14,7 +14,7 @@ public class DbaSourceManager implements DbaSourceService {
     private final DbaSourceRepository dbaSourceRepository;
 
     @Override
-    public List<DbaSource> searchByKeyword(String keyword) {
-        return dbaSourceRepository.findByKeyword(keyword);
+    public List<DbaSource> searchByAllDb(String keyword) {
+        return dbaSourceRepository.searchByAllDb(keyword);
     }
 }

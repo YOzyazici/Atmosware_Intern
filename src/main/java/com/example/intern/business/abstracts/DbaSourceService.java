@@ -5,5 +5,5 @@ import com.example.intern.entities.DbaSource;
 import java.util.List;
 
 public interface DbaSourceService {
-    List<DbaSource> searchByKeyword(String keyword);
+    List<DbaSource> searchByAllDb(String keyword);
 }

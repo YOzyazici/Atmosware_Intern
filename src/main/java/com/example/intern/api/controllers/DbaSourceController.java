@@ -19,6 +19,6 @@ public class DbaSourceController {
 
     @GetMapping("/search")
     public List<DbaSource> search(@RequestParam String keyword) {
-        return dbaSourceService.searchByKeyword(keyword);
+        return dbaSourceService.searchByAllDb(keyword);
     }
 }

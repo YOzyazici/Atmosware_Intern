@@ -24,5 +24,5 @@ public interface DbaSourceRepository extends JpaRepository<DbaSource, Long> {
             ") " +
             "ORDER BY owner, name DESC",
             nativeQuery = true)
-    List<DbaSource> findByKeyword(@Param("searchTerms") String searchTerms);
+    List<DbaSource> searchByAllDb(@Param("searchTerms") String searchTerms);
 }

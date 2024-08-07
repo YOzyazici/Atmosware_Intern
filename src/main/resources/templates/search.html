@@ -89,6 +89,43 @@
                 </ul>
             </div>
         </div>
+
+        <!-- DbaSource Results -->
+        <div class="results-section">
+            <h3 class="toggle-header">DbaSource Results ▼</h3>
+            <div class="results-content">
+                <ul class="results-list">
+                    <li th:each="item : ${searchResult.dbaSourceResultsWithQuery}" class="result-item">
+                        <div class="result-content">
+                            <div class="result-detail">
+                                <span class="label">Line:</span>
+                                <span th:text="${item.result.line}">Line</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Owner:</span>
+                                <span th:text="${item.result.owner}">Owner</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Name:</span>
+                                <span th:text="${item.result.name}">Name</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Type:</span>
+                                <span th:text="${item.result.type}">Type</span>
+                            </div>
+                            <div class="result-detail">
+                                <span class="label">Text:</span>
+                                <span th:text="${item.result.text}">Text</span>
+                            </div>
+                            <div class="result-query">
+                                <strong>Query:</strong>
+                                <pre th:text="${item.query}">Query</pre>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 </body>

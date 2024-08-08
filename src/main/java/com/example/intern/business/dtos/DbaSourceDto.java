@@ -14,4 +14,5 @@ public class DbaSourceDto {
     private String name;
     private String type;
     private String text;
+    private String dbaSourceJob;
 }

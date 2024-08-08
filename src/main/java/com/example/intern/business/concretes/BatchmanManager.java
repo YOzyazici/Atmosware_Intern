@@ -1,7 +1,9 @@
 package com.example.intern.business.concretes;
 
 import com.example.intern.business.abstracts.BatchmanService;
+import com.example.intern.business.abstracts.LlamaAiService;
 import com.example.intern.business.dtos.BatchmanDto;
+import com.example.intern.core.utils.exceptions.types.BusinessException;
 import com.example.intern.dataAccess.abstracts.BatchmanRepository;
 import com.example.intern.entities.Batchman;
 import com.example.intern.mapper.BatchmanMapper;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class BatchmanManager implements BatchmanService {
 
     private final BatchmanRepository batchmanRepository;
+    private final LlamaAiService llamaAiService;
 
     public List<BatchmanDto> getAllBatchmen() {
         List<Batchman> batchmans = batchmanRepository.findAll();
@@ -40,6 +43,10 @@ public class BatchmanManager implements BatchmanService {
         for (var batchman : batchmans){
             BatchmanDto batchmanDto = BatchmanMapper.INSTANCE.batchmanToDTO(batchman);
             batchmanDtos.add(batchmanDto);
+            if (!batchmanDto.getScript().isEmpty()) batchmanDto.setBatchJob(llamaAiService.generateMessage(batchmanDto.getScript()+"Bunu tek cümle de açıkla"));
+            else if (!batchmanDto.getScriptClob().isEmpty()) {
+                batchmanDto.setBatchJob(llamaAiService.generateMessage(batchmanDto.getScriptClob()+"Bunu tek cümle de açıkla"));
+            }else new BusinessException("Script and ScriptClob null");
         }
         return batchmanDtos;
     }

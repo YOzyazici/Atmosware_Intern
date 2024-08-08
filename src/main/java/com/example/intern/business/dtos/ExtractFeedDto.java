@@ -16,4 +16,5 @@ public class ExtractFeedDto {
     private String exSql;
     private String postScript;
     private String prevScript;
+    private String extractFeedJob;
 }

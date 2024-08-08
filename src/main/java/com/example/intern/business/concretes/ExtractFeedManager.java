@@ -1,7 +1,9 @@
 package com.example.intern.business.concretes;
 
 import com.example.intern.business.abstracts.ExtractFeedService;
+import com.example.intern.business.abstracts.LlamaAiService;
 import com.example.intern.business.dtos.ExtractFeedDto;
+import com.example.intern.core.utils.exceptions.types.BusinessException;
 import com.example.intern.dataAccess.abstracts.ExtractFeedRepository;
 import com.example.intern.entities.ExtractFeed;
 import com.example.intern.mapper.ExtractFeedMapper;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ExtractFeedManager implements ExtractFeedService {
     private final ExtractFeedRepository extractFeedRepository;
+    private final LlamaAiService llamaAiService;
 
     public List<ExtractFeedDto> getAllExtractFeeds() {
         List<ExtractFeed> extractFeeds = extractFeedRepository.findAll();
@@ -38,6 +41,8 @@ public class ExtractFeedManager implements ExtractFeedService {
         for (var extractFeed : extractFeeds){
             ExtractFeedDto extractFeedDto = ExtractFeedMapper.INSTANCE.extractFeedToDTO(extractFeed);
             extractFeedDtos.add(extractFeedDto);
+            if (!extractFeedDto.getExSql().isEmpty()) extractFeedDto.setExtractFeedJob(llamaAiService.generateMessage(extractFeedDto.getExSql()+"Bunu tek cümle de açıkla"));
+            else new BusinessException("ExSQl null");
         }
         return extractFeedDtos;
     }

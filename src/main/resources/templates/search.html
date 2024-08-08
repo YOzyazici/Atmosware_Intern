@@ -40,8 +40,8 @@
                                 <span th:text="${item.result.scriptClob}">Script Clob</span>
                             </div>
                             <div class="result-query">
-                                <strong>Query:</strong>
-                                <pre th:text="${item.query}">Query</pre>
+                                <strong>Batchman Job:</strong>
+                                <pre th:text="${item.result.batchJob}">Query</pre>
                             </div>
                         </div>
                     </li>
@@ -81,8 +81,8 @@
                                 <span th:text="${item.result.prevScript}">Previous Script</span>
                             </div>
                             <div class="result-query">
-                                <strong>Query:</strong>
-                                <pre th:text="${item.query}">Query</pre>
+                                <strong>Extract Feed Job:</strong>
+                                <pre th:text="${item.result.extractFeedJob}">Query</pre>
                             </div>
                         </div>
                     </li>
@@ -118,8 +118,8 @@
                                 <span th:text="${item.result.text}">Text</span>
                             </div>
                             <div class="result-query">
-                                <strong>Query:</strong>
-                                <pre th:text="${item.query}">Query</pre>
+                                <strong>Dba Source Job:</strong>
+                                <pre th:text="${item.result.dbaSourceJob}">Query</pre>
                             </div>
                         </div>
                     </li>

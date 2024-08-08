@@ -14,4 +14,5 @@ public class BatchmanDto {
     private String batchDesc;
     private String script;
     private String scriptClob;
+    private String batchJob;
 }

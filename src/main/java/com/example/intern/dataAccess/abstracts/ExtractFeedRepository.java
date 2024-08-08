@@ -11,7 +11,7 @@ public interface ExtractFeedRepository extends JpaRepository<ExtractFeed, String
 
     @Query(value = "SELECT * FROM yasin.EXTRACT_FEED e WHERE " +
             "(:searchTerms) IS NULL OR " +
-            "EXISTS (SELECT 1 FROM (SELECT REGEXP_SUBSTR(:searchTerms, '[^ ]+', 1, LEVEL) AS keyword FROM dual CONNECT BY REGEXP_SUBSTR(:searchTerms, '[^ ]+', 1, LEVEL) IS NOT NULL) WHERE " +
+            "EXISTS (SELECT 1 FROM (SELECT REGEXP_SUBSTR(:searchTerms, '[^,]+', 1, LEVEL) AS keyword FROM dual CONNECT BY REGEXP_SUBSTR(:searchTerms, '[^,]+', 1, LEVEL) IS NOT NULL) WHERE " +
             "LOWER(e.feed_id) LIKE LOWER('%' || keyword || '%') OR " +
             "LOWER(e.feed_desc) LIKE LOWER('%' || keyword || '%') OR " +
             "LOWER(e.feed_file_name) LIKE LOWER('%' || keyword || '%') OR " +

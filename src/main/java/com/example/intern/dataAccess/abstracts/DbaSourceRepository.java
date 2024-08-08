@@ -15,9 +15,9 @@ public interface DbaSourceRepository extends JpaRepository<DbaSource, Long> {
             "    EXISTS ( " +
             "        SELECT 1 " +
             "        FROM ( " +
-            "            SELECT REGEXP_SUBSTR(:searchTerms, '[^ ]+', 1, LEVEL) AS keyword " +
+            "            SELECT REGEXP_SUBSTR(:searchTerms, '[^,]+', 1, LEVEL) AS keyword " +
             "            FROM dual " +
-            "            CONNECT BY REGEXP_SUBSTR(:searchTerms, '[^ ]+', 1, LEVEL) IS NOT NULL " +
+            "            CONNECT BY REGEXP_SUBSTR(:searchTerms, '[^,]+', 1, LEVEL) IS NOT NULL " +
             "        ) t " +
             "        WHERE UPPER(dba_source.text) LIKE UPPER('%' || t.keyword || '%') " +
             "    ) " +

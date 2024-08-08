@@ -10,7 +10,7 @@ import java.util.List;
 public interface BatchmanRepository extends JpaRepository<Batchman, String> {
     @Query(value = "SELECT * FROM aziz.BATCHMAN b WHERE " +
             "(:searchTerms) IS NULL OR " +
-            "EXISTS (SELECT 1 FROM (SELECT REGEXP_SUBSTR(:searchTerms, '[^ ]+', 1, LEVEL) AS keyword FROM dual CONNECT BY REGEXP_SUBSTR(:searchTerms, '[^ ]+', 1, LEVEL) IS NOT NULL) WHERE " +
+            "EXISTS (SELECT 1 FROM (SELECT REGEXP_SUBSTR(:searchTerms, '[^,]+', 1, LEVEL) AS keyword FROM dual CONNECT BY REGEXP_SUBSTR(:searchTerms, '[^,]+', 1, LEVEL) IS NOT NULL) WHERE " +
             "LOWER(b.batch_id) LIKE LOWER('%' || keyword || '%') OR " +
             "LOWER(b.batch_desc) LIKE LOWER('%' || keyword || '%') OR " +
             "LOWER(b.script) LIKE LOWER('%' || keyword || '%') OR " +

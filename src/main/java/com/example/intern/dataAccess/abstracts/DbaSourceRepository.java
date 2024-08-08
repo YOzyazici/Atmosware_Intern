@@ -11,6 +11,7 @@ public interface DbaSourceRepository extends JpaRepository<DbaSource, Long> {
 
     @Query(value = "SELECT * FROM dba_source " +
             "WHERE owner <> 'SYS' " +
+            "AND owner <> 'APEX_040000' " +
             "AND ( " +
             "    EXISTS ( " +
             "        SELECT 1 " +

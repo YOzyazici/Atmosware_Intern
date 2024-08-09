@@ -18,7 +18,10 @@
     <div th:if="${searchResult}" class="results-container">
         <!-- Batchman Results -->
         <div class="results-section">
-            <h3 class="toggle-header">Batchman Results ▼</h3>
+            <h3 class="toggle-header">
+                Batchman Results
+                <span class="arrow">▼</span>
+            </h3>
             <div class="results-content">
                 <ul class="results-list">
                     <li th:each="item : ${searchResult.batchmanResultsWithQuery}" class="result-item">
@@ -51,7 +54,10 @@
 
         <!-- ExtractFeed Results -->
         <div class="results-section">
-            <h3 class="toggle-header">ExtractFeed Results ▼</h3>
+            <h3 class="toggle-header">
+                ExtractFeed Results
+                <span class="arrow">▼</span>
+            </h3>
             <div class="results-content">
                 <ul class="results-list">
                     <li th:each="item : ${searchResult.extractFeedResultsWithQuery}" class="result-item">
@@ -92,7 +98,10 @@
 
         <!-- DbaSource Results -->
         <div class="results-section">
-            <h3 class="toggle-header">DbaSource Results ▼</h3>
+            <h3 class="toggle-header">
+                DbaSource Results
+                <span class="arrow">▼</span>
+            </h3>
             <div class="results-content">
                 <ul class="results-list">
                     <li th:each="item : ${searchResult.dbaSourceResultsWithQuery}" class="result-item">

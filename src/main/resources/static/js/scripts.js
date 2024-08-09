@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleHeaders.forEach(header => {
         header.addEventListener('click', () => {
             const content = header.nextElementSibling;
+            const arrow = header.querySelector('.arrow');
             content.style.display = content.style.display === 'none' ? 'block' : 'none';
-            header.textContent = header.textContent.endsWith('▼') ? header.textContent.replace('▼', '▲') : header.textContent.replace('▲', '▼');
+            arrow.classList.toggle('up');
         });
     });
 });

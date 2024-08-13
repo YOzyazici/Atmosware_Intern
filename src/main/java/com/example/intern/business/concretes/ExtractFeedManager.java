@@ -4,6 +4,7 @@ import com.example.intern.business.abstracts.ExtractFeedSearchCacheService;
 import com.example.intern.business.abstracts.ExtractFeedService;
 import com.example.intern.business.abstracts.LlamaAiService;
 import com.example.intern.business.dtos.ExtractFeedDto;
+import com.example.intern.business.dtos.ExtractFeedSearchCacheDto;
 import com.example.intern.core.utils.exceptions.types.BusinessException;
 import com.example.intern.dataAccess.abstracts.ExtractFeedRepository;
 import com.example.intern.entities.ExtractFeed;
@@ -42,15 +43,15 @@ public class ExtractFeedManager implements ExtractFeedService {
     public List<ExtractFeedDto> searchByAllFields(String word) {
         List<ExtractFeed> extractFeeds = extractFeedRepository.searchByAllFields(word);
         List<ExtractFeedDto> extractFeedDtos = new ArrayList<>();
-        List<ExtractFeedSearchCache> extractFeedSearchCacheList = extractFeedSearchCacheService.findAllByKeyword(word);
+        List<ExtractFeedSearchCacheDto> extractFeedSearchCacheDtoList = extractFeedSearchCacheService.findAllByKeyword(word);
 
         for (var extractFeed : extractFeeds){
             ExtractFeedDto extractFeedDto = ExtractFeedMapper.INSTANCE.extractFeedToDTO(extractFeed);
             boolean isCached = false;
 
-            for (var extractFeedSearchCache : extractFeedSearchCacheList){
-                if (extractFeedSearchCache.getLine().equals(extractFeedDto.getExSql())){
-                    extractFeedDto.setExtractFeedJob(extractFeedSearchCache.getResult());
+            for (var extractFeedSearchCacheDto : extractFeedSearchCacheDtoList){
+                if (extractFeedSearchCacheDto.getLine().equals(extractFeedDto.getExSql())){
+                    extractFeedDto.setExtractFeedJob(extractFeedSearchCacheDto.getResult());
                     isCached = true;
                     break;
                 }
@@ -59,11 +60,11 @@ public class ExtractFeedManager implements ExtractFeedService {
             if (!isCached){
                 if (!extractFeedDto.getExSql().isEmpty()){
                     extractFeedDto.setExtractFeedJob(llamaAiService.generateMessage(extractFeedDto.getExSql()+ai));
-                    ExtractFeedSearchCache extractFeedSearchCache1 = new ExtractFeedSearchCache();
-                    extractFeedSearchCache1.setKeyword(word);
-                    extractFeedSearchCache1.setLine(extractFeedDto.getExSql());
-                    extractFeedSearchCache1.setResult(extractFeedDto.getExtractFeedJob());
-                    extractFeedSearchCacheService.save(extractFeedSearchCache1);
+                    ExtractFeedSearchCacheDto extractFeedSearchCacheDto = new ExtractFeedSearchCacheDto();
+                    extractFeedSearchCacheDto.setKeyword(word);
+                    extractFeedSearchCacheDto.setLine(extractFeedDto.getExSql());
+                    extractFeedSearchCacheDto.setResult(extractFeedDto.getExtractFeedJob());
+                    extractFeedSearchCacheService.save(extractFeedSearchCacheDto);
                 }
                 else throw new BusinessException("ExSQl null");
             }

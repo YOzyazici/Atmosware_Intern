@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Clob;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ParamsDto {
+public class BatchmanSearchCacheDto {
     private String id;
-    private String word;
-    private Clob sqlQuery;
+    private String keyword;
+    private String line;
+    private String result;
 }

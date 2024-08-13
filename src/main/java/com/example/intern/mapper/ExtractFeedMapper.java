@@ -4,12 +4,8 @@ import com.example.intern.business.dtos.ExtractFeedDto;
 import com.example.intern.entities.ExtractFeed;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
-import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
-
 import java.sql.Clob;
 import java.sql.SQLException;
 

@@ -4,14 +4,13 @@ import com.example.intern.business.abstracts.BatchmanSearchCacheService;
 import com.example.intern.business.abstracts.BatchmanService;
 import com.example.intern.business.abstracts.LlamaAiService;
 import com.example.intern.business.dtos.BatchmanDto;
+import com.example.intern.business.dtos.BatchmanSearchCacheDto;
 import com.example.intern.core.utils.exceptions.types.BusinessException;
 import com.example.intern.dataAccess.abstracts.BatchmanRepository;
-import com.example.intern.dataAccess.abstracts.BatchmanSearchCacheRepository;
 import com.example.intern.entities.Batchman;
 import com.example.intern.entities.BatchmanSearchCache;
 import com.example.intern.mapper.BatchmanMapper;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,15 +45,15 @@ public class BatchmanManager implements BatchmanService {
 
         List<Batchman> batchmans = batchmanRepository.searchByAllFields(word);
         List<BatchmanDto> batchmanDtos = new ArrayList<>();
-        List<BatchmanSearchCache> batchmanSearchCaches = batchmanSearchCacheService.findAllByKeyword(word);
+        List<BatchmanSearchCacheDto> batchmanSearchCacheDtoList = batchmanSearchCacheService.findAllByKeyword(word);
 
         for (var batchman : batchmans) {
             BatchmanDto batchmanDto = BatchmanMapper.INSTANCE.batchmanToDTO(batchman);
             boolean isCached = false;
 
-            for (var batchmanSearchCache : batchmanSearchCaches) {
-                if (batchmanSearchCache.getLine().equals(batchmanDto.getScript()) || batchmanSearchCache.getLine().equals(batchmanDto.getScriptClob())) {
-                    batchmanDto.setBatchJob(batchmanSearchCache.getResult());
+            for (var batchmanSearchCacheDto : batchmanSearchCacheDtoList) {
+                if (batchmanSearchCacheDto.getLine().equals(batchmanDto.getScript()) || batchmanSearchCacheDto.getLine().equals(batchmanDto.getScriptClob())) {
+                    batchmanDto.setBatchJob(batchmanSearchCacheDto.getResult());
                     isCached = true;
                     break;
                 }
@@ -63,18 +62,18 @@ public class BatchmanManager implements BatchmanService {
             if (!isCached) {
                 if (!batchmanDto.getScript().isEmpty()) {
                     batchmanDto.setBatchJob(llamaAiService.generateMessage(batchmanDto.getScript() + ai));
-                    BatchmanSearchCache batchmanSearchCache1 = new BatchmanSearchCache();
-                    batchmanSearchCache1.setKeyword(word);
-                    batchmanSearchCache1.setLine(batchmanDto.getScript());
-                    batchmanSearchCache1.setResult(batchmanDto.getBatchJob());
-                    batchmanSearchCacheService.save(batchmanSearchCache1);
+                    BatchmanSearchCacheDto batchmanSearchCacheDto = new BatchmanSearchCacheDto();
+                    batchmanSearchCacheDto.setKeyword(word);
+                    batchmanSearchCacheDto.setLine(batchmanDto.getScript());
+                    batchmanSearchCacheDto.setResult(batchmanDto.getBatchJob());
+                    batchmanSearchCacheService.save(batchmanSearchCacheDto);
                 } else if (!batchmanDto.getScriptClob().isEmpty()) {
                     batchmanDto.setBatchJob(llamaAiService.generateMessage(batchmanDto.getScriptClob() + ai));
-                    BatchmanSearchCache batchmanSearchCache1 = new BatchmanSearchCache();
-                    batchmanSearchCache1.setKeyword(word);
-                    batchmanSearchCache1.setLine(batchmanDto.getScriptClob());
-                    batchmanSearchCache1.setResult(batchmanDto.getBatchJob());
-                    batchmanSearchCacheService.save(batchmanSearchCache1);
+                    BatchmanSearchCacheDto batchmanSearchCacheDto = new BatchmanSearchCacheDto();
+                    batchmanSearchCacheDto.setKeyword(word);
+                    batchmanSearchCacheDto.setLine(batchmanDto.getScriptClob());
+                    batchmanSearchCacheDto.setResult(batchmanDto.getBatchJob());
+                    batchmanSearchCacheService.save(batchmanSearchCacheDto);
                 } else throw new BusinessException("Script and ScriptClob are both null");
             }
 

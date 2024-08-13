@@ -5,11 +5,7 @@ import com.example.intern.entities.Batchman;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
 
 import java.sql.Clob;
 import java.sql.SQLException;

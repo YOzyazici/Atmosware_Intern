@@ -1,13 +1,17 @@
 package com.example.intern.api.controllers;
 
+import com.example.intern.business.abstracts.BatchmanSearchCacheService;
 import com.example.intern.business.abstracts.BatchmanService;
 import com.example.intern.business.dtos.BatchmanDto;
+import com.example.intern.dataAccess.abstracts.BatchmanSearchCacheRepository;
 import com.example.intern.entities.Batchman;
+import com.example.intern.entities.BatchmanSearchCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,6 +19,7 @@ import java.util.List;
 public class BatchmanController {
 
     private final BatchmanService batchmanService;
+    private final BatchmanSearchCacheService batchmanSearchCacheService;
 
     @GetMapping
     public List<BatchmanDto> getAllBatchmen() {
@@ -42,5 +47,16 @@ public class BatchmanController {
     public ResponseEntity<Void> deleteBatchman(@PathVariable String batchId) {
         batchmanService.deleteBatchman(batchId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/search/all/{keyword}")
+    public ResponseEntity<?> findAllByKeyword(@PathVariable String keyword) {
+        List<BatchmanSearchCache> cacheResults = batchmanSearchCacheService.findAllByKeyword(keyword);
+
+        if (!cacheResults.isEmpty()) {
+            return ResponseEntity.ok(cacheResults);
+        } else {
+            return ResponseEntity.status(404).body("No results found for keyword: " + keyword);
+        }
     }
 }

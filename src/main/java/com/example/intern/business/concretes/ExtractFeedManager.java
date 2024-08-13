@@ -1,11 +1,13 @@
 package com.example.intern.business.concretes;
 
+import com.example.intern.business.abstracts.ExtractFeedSearchCacheService;
 import com.example.intern.business.abstracts.ExtractFeedService;
 import com.example.intern.business.abstracts.LlamaAiService;
 import com.example.intern.business.dtos.ExtractFeedDto;
 import com.example.intern.core.utils.exceptions.types.BusinessException;
 import com.example.intern.dataAccess.abstracts.ExtractFeedRepository;
 import com.example.intern.entities.ExtractFeed;
+import com.example.intern.entities.ExtractFeedSearchCache;
 import com.example.intern.mapper.ExtractFeedMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class ExtractFeedManager implements ExtractFeedService {
     private final ExtractFeedRepository extractFeedRepository;
     private final LlamaAiService llamaAiService;
+    private final ExtractFeedSearchCacheService extractFeedSearchCacheService;
+    String ai="Bunu tek cümle de açıkla";
 
     public List<ExtractFeedDto> getAllExtractFeeds() {
         List<ExtractFeed> extractFeeds = extractFeedRepository.findAll();
@@ -38,11 +42,33 @@ public class ExtractFeedManager implements ExtractFeedService {
     public List<ExtractFeedDto> searchByAllFields(String word) {
         List<ExtractFeed> extractFeeds = extractFeedRepository.searchByAllFields(word);
         List<ExtractFeedDto> extractFeedDtos = new ArrayList<>();
+        List<ExtractFeedSearchCache> extractFeedSearchCacheList = extractFeedSearchCacheService.findAllByKeyword(word);
+
         for (var extractFeed : extractFeeds){
             ExtractFeedDto extractFeedDto = ExtractFeedMapper.INSTANCE.extractFeedToDTO(extractFeed);
+            boolean isCached = false;
+
+            for (var extractFeedSearchCache : extractFeedSearchCacheList){
+                if (extractFeedSearchCache.getLine().equals(extractFeedDto.getExSql())){
+                    extractFeedDto.setExtractFeedJob(extractFeedSearchCache.getResult());
+                    isCached = true;
+                    break;
+                }
+            }
+
+            if (!isCached){
+                if (!extractFeedDto.getExSql().isEmpty()){
+                    extractFeedDto.setExtractFeedJob(llamaAiService.generateMessage(extractFeedDto.getExSql()+ai));
+                    ExtractFeedSearchCache extractFeedSearchCache1 = new ExtractFeedSearchCache();
+                    extractFeedSearchCache1.setKeyword(word);
+                    extractFeedSearchCache1.setLine(extractFeedDto.getExSql());
+                    extractFeedSearchCache1.setResult(extractFeedDto.getExtractFeedJob());
+                    extractFeedSearchCacheService.save(extractFeedSearchCache1);
+                }
+                else throw new BusinessException("ExSQl null");
+            }
+
             extractFeedDtos.add(extractFeedDto);
-            if (!extractFeedDto.getExSql().isEmpty()) extractFeedDto.setExtractFeedJob(llamaAiService.generateMessage(extractFeedDto.getExSql()+"Bunu tek cümle de açıkla"));
-            else new BusinessException("ExSQl null");
         }
         return extractFeedDtos;
     }

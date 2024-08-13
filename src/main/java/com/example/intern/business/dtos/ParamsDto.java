@@ -13,4 +13,5 @@ public class ParamsDto {
     private String id;
     private String word;
     private Clob sqlQuery;
+    private String ai;
 }

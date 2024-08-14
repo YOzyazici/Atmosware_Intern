@@ -1,14 +1,13 @@
 package com.example.intern.business.concretes;
 
-import com.example.intern.business.abstracts.ExtractFeedSearchCacheService;
 import com.example.intern.business.abstracts.ExtractFeedService;
 import com.example.intern.business.abstracts.LlamaAiService;
+import com.example.intern.business.abstracts.SearchCacheService;
 import com.example.intern.business.dtos.ExtractFeedDto;
-import com.example.intern.business.dtos.ExtractFeedSearchCacheDto;
+import com.example.intern.business.dtos.SearchCacheDto;
 import com.example.intern.core.utils.exceptions.types.BusinessException;
 import com.example.intern.dataAccess.abstracts.ExtractFeedRepository;
 import com.example.intern.entities.ExtractFeed;
-import com.example.intern.entities.ExtractFeedSearchCache;
 import com.example.intern.mapper.ExtractFeedMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ import java.util.Optional;
 public class ExtractFeedManager implements ExtractFeedService {
     private final ExtractFeedRepository extractFeedRepository;
     private final LlamaAiService llamaAiService;
-    private final ExtractFeedSearchCacheService extractFeedSearchCacheService;
+    private final SearchCacheService searchCacheService;
     String ai="Bunu tek cümle de açıkla";
 
     public List<ExtractFeedDto> getAllExtractFeeds() {
@@ -43,15 +42,15 @@ public class ExtractFeedManager implements ExtractFeedService {
     public List<ExtractFeedDto> searchByAllFields(String word) {
         List<ExtractFeed> extractFeeds = extractFeedRepository.searchByAllFields(word);
         List<ExtractFeedDto> extractFeedDtos = new ArrayList<>();
-        List<ExtractFeedSearchCacheDto> extractFeedSearchCacheDtoList = extractFeedSearchCacheService.findAllByKeyword(word);
+        List<SearchCacheDto> searchCacheDtoList = searchCacheService.findAllByKeyword(word);
 
         for (var extractFeed : extractFeeds){
             ExtractFeedDto extractFeedDto = ExtractFeedMapper.INSTANCE.extractFeedToDTO(extractFeed);
             boolean isCached = false;
 
-            for (var extractFeedSearchCacheDto : extractFeedSearchCacheDtoList){
-                if (extractFeedSearchCacheDto.getLine().equals(extractFeedDto.getExSql())){
-                    extractFeedDto.setExtractFeedJob(extractFeedSearchCacheDto.getResult());
+            for (var searchCacheDto : searchCacheDtoList){
+                if (searchCacheDto.getLine().equals(extractFeedDto.getExSql())){
+                    extractFeedDto.setExtractFeedJob(searchCacheDto.getResult());
                     isCached = true;
                     break;
                 }
@@ -60,11 +59,11 @@ public class ExtractFeedManager implements ExtractFeedService {
             if (!isCached){
                 if (!extractFeedDto.getExSql().isEmpty()){
                     extractFeedDto.setExtractFeedJob(llamaAiService.generateMessage(extractFeedDto.getExSql()+ai));
-                    ExtractFeedSearchCacheDto extractFeedSearchCacheDto = new ExtractFeedSearchCacheDto();
-                    extractFeedSearchCacheDto.setKeyword(word);
-                    extractFeedSearchCacheDto.setLine(extractFeedDto.getExSql());
-                    extractFeedSearchCacheDto.setResult(extractFeedDto.getExtractFeedJob());
-                    extractFeedSearchCacheService.save(extractFeedSearchCacheDto);
+                    SearchCacheDto searchCacheDto = new SearchCacheDto();
+                    searchCacheDto.setKeyword(word);
+                    searchCacheDto.setLine(extractFeedDto.getExSql());
+                    searchCacheDto.setResult(extractFeedDto.getExtractFeedJob());
+                    searchCacheService.save(searchCacheDto);
                 }
                 else throw new BusinessException("ExSQl null");
             }

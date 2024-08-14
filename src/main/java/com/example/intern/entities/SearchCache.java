@@ -1,21 +1,22 @@
 package com.example.intern.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "BATCHMAN_SEARCH_CACHE", schema = "burak")
-public class BatchmanSearchCache {
+@Table(name = "SEARCH_CACHE", schema = "burak")
+public class SearchCache {
     @Id
-    @Column(name = "id")
     private String id;
     private String keyword;
     private String line;
     private String result;
-
     @PrePersist
     public void generateId() {
         if (this.id == null) {
@@ -23,3 +24,4 @@ public class BatchmanSearchCache {
         }
     }
 }
+

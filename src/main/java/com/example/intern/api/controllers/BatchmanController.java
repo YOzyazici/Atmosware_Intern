@@ -1,9 +1,7 @@
 package com.example.intern.api.controllers;
 
-import com.example.intern.business.abstracts.BatchmanSearchCacheService;
 import com.example.intern.business.abstracts.BatchmanService;
 import com.example.intern.business.dtos.BatchmanDto;
-import com.example.intern.entities.BatchmanSearchCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +14,6 @@ import java.util.List;
 public class BatchmanController {
 
     private final BatchmanService batchmanService;
-    private final BatchmanSearchCacheService batchmanSearchCacheService;
 
     @GetMapping
     public List<BatchmanDto> getAllBatchmen() {

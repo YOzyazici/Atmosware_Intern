@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ExtractFeedSearchCacheDto {
+public class SearchCacheDto {
     private String id;
     private String keyword;
     private String line;

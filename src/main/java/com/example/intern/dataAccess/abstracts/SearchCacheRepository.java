@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface SearchCacheRepository extends JpaRepository<SearchCache,String> {
 
-    @Query("SELECT sc FROM SearchCache sc WHERE LOWER(sc.line) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    List<SearchCache> findAllByLineContaining(@Param("keyword") String keyword);
+    @Query("SELECT sc FROM SearchCache sc WHERE LOWER(sc.line) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(sc.keyword) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<SearchCache> findAllByLineContainingOrKeywordContaining(@Param("keyword") String keyword);
 }

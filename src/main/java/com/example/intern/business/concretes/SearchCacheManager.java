@@ -19,7 +19,7 @@ public class SearchCacheManager implements SearchCacheService {
 
     @Override
     public List<SearchCacheDto> findAllByKeyword(String word) {
-        List<SearchCache> searchCacheList = repository.findAllByLineContaining(word);
+        List<SearchCache> searchCacheList = repository.findAllByLineContainingOrKeywordContaining(word);
         List<SearchCacheDto> searchCacheDtoList = new ArrayList<>();
         for (var searchCache: searchCacheList){
             SearchCacheDto searchCacheDto = SearchCacheMapper.INSTANCE.searchCacheToDto(searchCache);
